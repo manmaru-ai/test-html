@@ -6,49 +6,72 @@
     <title>山本 陽翔 - ポートフォリオ</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
             background-color: #ffffff;
             color: #333;
             text-align: center;
         }
         header {
-            padding: 2rem;
-            font-size: 2.5rem;
+            padding: 3rem;
+            font-size: 3rem;
             font-weight: 700;
-            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
         section {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            opacity: 1;
-            transform: translateY(0);
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 2.5rem;
+            background: #f5f5f5;
+            border-radius: 15px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
         }
-        a {
-            color: #ff7e5f;
-            text-decoration: none;
-            font-weight: 700;
+        section:hover {
+            transform: translateY(-5px);
         }
-        .social-icons a {
-            margin: 0 10px;
-            font-size: 1.5rem;
+        h2 {
+            font-size: 2rem;
+            color: #ff416c;
+            margin-bottom: 1rem;
+        }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
         }
         .contact-btn {
             display: inline-block;
-            margin-top: 1rem;
-            padding: 10px 20px;
-            background: #ff7e5f;
+            margin-top: 1.5rem;
+            padding: 12px 25px;
+            background: #ff416c;
             color: #fff;
-            border-radius: 5px;
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+            font-size: 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+        .contact-btn:hover {
+            background: #ff4b2b;
+        }
+        .social-icons {
+            margin-top: 2rem;
+        }
+        .social-icons a {
+            margin: 0 15px;
+            font-size: 1.8rem;
+            color: #ff416c;
+            transition: color 0.3s;
+        }
+        .social-icons a:hover {
+            color: #ff4b2b;
         }
     </style>
 </head>
@@ -56,7 +79,7 @@
     <header>山本 陽翔 - AI/MLリードエンジニア</header>
     <section>
         <h2>プロフィール</h2>
-        <p>シリコンバレーのスタートアップや大手テック企業での開発経験を持つ。</p>
+        <p>シリコンバレーのスタートアップや大手テック企業での開発経験を持つ。<br>AI・機械学習、クラウドアーキテクチャ、フルスタック開発に精通。</p>
     </section>
     <section>
         <h2>スキルセット</h2>

@@ -9,11 +9,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
         
         :root {
-            --primary: #2563eb;
-            --secondary: #3b82f6;
-            --accent: #60a5fa;
+            --primary: #6366f1;
+            --secondary: #818cf8;
+            --accent: #4f46e5;
             --text: #1f2937;
-            --bg: #ffffff;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --gradient-start: #4f46e5;
+            --gradient-end: #818cf8;
         }
 
         * {
@@ -35,10 +38,24 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             color: white;
             position: relative;
             overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .header-content {
@@ -48,11 +65,15 @@
         }
 
         .header-title {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
             animation: fadeInUp 1s ease-out;
+            background: linear-gradient(to right, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .header-subtitle {
@@ -92,9 +113,23 @@
 
         .section-title {
             font-size: 2.5rem;
-            color: var(--primary);
+            color: var(--text);
             margin-bottom: 2rem;
             text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
         }
 
         .skills-grid {
@@ -105,21 +140,33 @@
         }
 
         .skill-card {
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .skill-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
         }
 
         .skill-icon {
             font-size: 2.5rem;
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover .skill-icon {
+            transform: scale(1.1);
         }
 
         .projects {
@@ -129,15 +176,19 @@
         }
 
         .project-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 1rem;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .project-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
         }
 
         .project-image {
@@ -159,30 +210,55 @@
             width: 100%;
             padding: 1rem;
             margin-bottom: 1rem;
-            border: 2px solid var(--accent);
+            border: 2px solid rgba(99, 102, 241, 0.2);
             border-radius: 0.5rem;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            background: var(--card-bg);
         }
 
         .contact-input:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
         .contact-button {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             color: white;
             padding: 1rem 2rem;
             border: none;
             border-radius: 0.5rem;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .contact-button:hover {
-            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .contact-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .contact-button:hover::before {
+            left: 100%;
         }
 
         .social-links {
@@ -195,11 +271,29 @@
         .social-link {
             color: var(--primary);
             font-size: 2rem;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         .social-link:hover {
-            color: var(--secondary);
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .social-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover::after {
+            transform: scaleX(1);
         }
 
         @keyframes fadeInUp {
@@ -304,23 +398,56 @@
     </main>
 
     <script>
-        // スクロールアニメーション
+        // スムーズスクロール
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            window.scrollTo({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        });
+
+        // セクションのアニメーション
         const sections = document.querySelectorAll('.section');
         
         const observerOptions = {
-            threshold: 0.1
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    entry.target.style.transitionDelay = '0.2s';
                 }
             });
         }, observerOptions);
 
         sections.forEach(section => {
             observer.observe(section);
+        });
+
+        // スキルカードのアニメーション
+        const skillCards = document.querySelectorAll('.skill-card');
+        skillCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+        });
+
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        skillCards.forEach(card => {
+            skillObserver.observe(card);
         });
     </script>
 </body>

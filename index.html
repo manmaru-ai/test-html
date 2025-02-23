@@ -4,99 +4,324 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>山本 陽翔 - ポートフォリオ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
+        
+        :root {
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --accent: #60a5fa;
+            --text: #1f2937;
+            --bg: #ffffff;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            text-align: center;
-        }
-        header {
-            padding: 3rem;
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
-        }
-        section {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 2.5rem;
-            background: #f5f5f5;
-            border-radius: 15px;
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-        section:hover {
-            transform: translateY(-5px);
-        }
-        h2 {
-            font-size: 2rem;
-            color: #ff416c;
-            margin-bottom: 1rem;
-        }
-        p {
-            font-size: 1.2rem;
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
         }
-        .contact-btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 12px 25px;
-            background: #ff416c;
-            color: #fff;
-            font-size: 1.2rem;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s;
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            position: relative;
+            overflow: hidden;
         }
-        .contact-btn:hover {
-            background: #ff4b2b;
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
         }
-        .social-icons {
+
+        .header-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .header-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: white;
+            font-size: 2rem;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
             margin-top: 2rem;
         }
-        .social-icons a {
-            margin: 0 15px;
-            font-size: 1.8rem;
-            color: #ff416c;
-            transition: color 0.3s;
+
+        .skill-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
-        .social-icons a:hover {
-            color: #ff4b2b;
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid var(--accent);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .contact-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .contact-button {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-button:hover {
+            background: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .social-link {
+            color: var(--primary);
+            font-size: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--secondary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
         }
     </style>
 </head>
 <body>
-    <header>山本 陽翔 - AI/MLリードエンジニア</header>
-    <section>
-        <h2>プロフィール</h2>
-        <p>シリコンバレーのスタートアップや大手テック企業での開発経験を持つ。<br>AI・機械学習、クラウドアーキテクチャ、フルスタック開発に精通。</p>
-    </section>
-    <section>
-        <h2>スキルセット</h2>
-        <p>AI・機械学習 / フルスタック開発 / クラウドアーキテクチャ</p>
-    </section>
-    <section>
-        <h2>実績</h2>
-        <p>AIを活用したコード生成ツール開発・分散型クラウドストレージ構築</p>
-    </section>
-    <section>
-        <h2>お問い合わせ</h2>
-        <a class="contact-btn" href="mailto:haruto@example.com">メールを送る</a>
-    </section>
-    <div class="social-icons">
-        <a href="https://github.com/" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
-        <a href="https://twitter.com/" target="_blank">Twitter</a>
-    </div>
+    <header>
+        <div class="header-content">
+            <h1 class="header-title">山本 陽翔</h1>
+            <p class="header-subtitle">AI/MLリードエンジニア | イノベーター</p>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" id="about">
+            <h2 class="section-title">プロフィール</h2>
+            <p>シリコンバレーのスタートアップや大手テック企業での豊富な開発経験を持つエンジニア。最先端のAI・機械学習技術を活用したプロダクト開発をリード。クラウドアーキテクチャの設計からフルスタック開発まで、幅広い技術スタックを駆使してイノベーティブなソリューションを提供しています。</p>
+        </section>
+
+        <section class="section" id="skills">
+            <h2 class="section-title">スキルセット</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fas fa-brain skill-icon"></i>
+                    <h3>AI・機械学習</h3>
+                    <p>TensorFlow, PyTorch, 自然言語処理, コンピュータビジョン</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-code skill-icon"></i>
+                    <h3>フルスタック開発</h3>
+                    <p>React, Node.js, Python, マイクロサービス</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-cloud skill-icon"></i>
+                    <h3>クラウド技術</h3>
+                    <p>AWS, GCP, Kubernetes, Docker</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="projects">
+            <h2 class="section-title">主要プロジェクト</h2>
+            <div class="projects">
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>AIコード生成エンジン</h3>
+                        <p>自然言語からコードを生成する革新的なAIシステムの開発</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>分散型クラウドストレージ</h3>
+                        <p>ブロックチェーン技術を活用した次世代ストレージシステム</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <h2 class="section-title">お問い合わせ</h2>
+            <form class="contact-form">
+                <input type="email" class="contact-input" placeholder="メールアドレス" required>
+                <textarea class="contact-input" placeholder="メッセージ" rows="5" required></textarea>
+                <button type="submit" class="contact-button">送信する</button>
+            </form>
+            <div class="social-links">
+                <a href="https://github.com/" target="_blank" class="social-link">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/" target="_blank" class="social-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://twitter.com/" target="_blank" class="social-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // スクロールアニメーション
+        const sections = document.querySelectorAll('.section');
+        
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>

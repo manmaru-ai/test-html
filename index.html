@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>山本 陽翔 - ポートフォリオ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
         
@@ -44,18 +45,17 @@
             overflow: hidden;
         }
 
-        header::before {
-            content: '';
+        .particle {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            animation: float 15s infinite linear;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
         }
 
         .header-content {
@@ -69,11 +69,20 @@
             font-weight: 700;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            animation: fadeInUp 1s ease-out;
-            background: linear-gradient(to right, #ffffff, #e2e8f0);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            animation: glitch 5s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: none; opacity: 1; }
+            7% { transform: skew(-0.5deg, -0.9deg); opacity: 0.75; }
+            10% { transform: none; opacity: 1; }
+            27% { transform: none; opacity: 1; }
+            30% { transform: skew(0.8deg, -0.1deg); opacity: 0.75; }
+            35% { transform: none; opacity: 1; }
+            52% { transform: none; opacity: 1; }
+            55% { transform: skew(-1deg, 0.2deg); opacity: 0.75; }
+            50% { transform: none; opacity: 1; }
+            100% { transform: none; opacity: 1; }
         }
 
         .header-subtitle {
@@ -91,6 +100,7 @@
             animation: bounce 2s infinite;
             color: white;
             font-size: 2rem;
+            cursor: pointer;
         }
 
         main {
@@ -101,14 +111,6 @@
 
         .section {
             margin-bottom: 6rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease-out;
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .section-title {
@@ -147,12 +149,24 @@
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
 
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--accent);
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .skill-card:hover::before {
+            transform: rotate(45deg) translate(50%, 50%);
         }
 
         .skill-icon {
@@ -165,8 +179,20 @@
             transition: transform 0.3s ease;
         }
 
-        .skill-card:hover .skill-icon {
-            transform: scale(1.1);
+        .skill-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 3px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .skill-progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border-radius: 3px;
+            transition: width 1.5s ease;
         }
 
         .projects {
@@ -181,29 +207,65 @@
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            position: relative;
         }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--accent);
+        .project-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover::after {
+            opacity: 1;
         }
 
         .project-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
         }
 
         .project-content {
             padding: 1.5rem;
         }
 
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            color: var(--primary);
+        }
+
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
         .contact-input {
@@ -234,31 +296,12 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .contact-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        }
-
-        .contact-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                120deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: 0.5s;
-        }
-
-        .contact-button:hover::before {
-            left: 100%;
         }
 
         .social-links {
@@ -277,23 +320,7 @@
 
         .social-link:hover {
             color: var(--accent);
-            transform: translateY(-3px);
-        }
-
-        .social-link::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .social-link:hover::after {
-            transform: scaleX(1);
+            transform: translateY(-3px) rotate(8deg);
         }
 
         @keyframes fadeInUp {
@@ -318,6 +345,20 @@
                 transform: translateY(-10px);
             }
         }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 3rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -325,6 +366,9 @@
         <div class="header-content">
             <h1 class="header-title">山本 陽翔</h1>
             <p class="header-subtitle">AI/MLリードエンジニア | イノベーター</p>
+            <div class="header-cta">
+                <a href="#contact" class="contact-button">お問い合わせ</a>
+            </div>
         </div>
         <div class="scroll-indicator">
             <i class="fas fa-chevron-down"></i>
@@ -332,72 +376,144 @@
     </header>
 
     <main>
-        <section class="section" id="about">
+        <section class="section" id="about" data-aos="fade-up">
             <h2 class="section-title">プロフィール</h2>
-            <p>シリコンバレーのスタートアップや大手テック企業での豊富な開発経験を持つエンジニア。最先端のAI・機械学習技術を活用したプロダクト開発をリード。クラウドアーキテクチャの設計からフルスタック開発まで、幅広い技術スタックを駆使してイノベーティブなソリューションを提供しています。</p>
+            <p>シリコンバレーのスタートアップや大手テック企業での10年以上の開発経験を持つエンジニア。最先端のAI・機械学習技術を活用したプロダクト開発をリード。クラウドアーキテクチャの設計からフルスタック開発まで、幅広い技術スタックを駆使してイノベーティブなソリューションを提供しています。</p>
+            <p>複数の特許取得、国際会議での発表実績があり、オープンソースコミュニティへの貢献も積極的に行っています。</p>
         </section>
 
-        <section class="section" id="skills">
+        <section class="section" id="skills" data-aos="fade-up">
             <h2 class="section-title">スキルセット</h2>
             <div class="skills-grid">
-                <div class="skill-card">
+                <div class="skill-card" data-aos="flip-left">
                     <i class="fas fa-brain skill-icon"></i>
                     <h3>AI・機械学習</h3>
-                    <p>TensorFlow, PyTorch, 自然言語処理, コンピュータビジョン</p>
+                    <p>TensorFlow, PyTorch, 自然言語処理, コンピュータビジョン, 強化学習</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 95%"></div>
+                    </div>
                 </div>
-                <div class="skill-card">
+                <div class="skill-card" data-aos="flip-left" data-aos-delay="100">
                     <i class="fas fa-code skill-icon"></i>
                     <h3>フルスタック開発</h3>
-                    <p>React, Node.js, Python, マイクロサービス</p>
+                    <p>React, Vue.js, Node.js, Python, Go, マイクロサービス</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 90%"></div>
+                    </div>
                 </div>
-                <div class="skill-card">
+                <div class="skill-card" data-aos="flip-left" data-aos-delay="200">
                     <i class="fas fa-cloud skill-icon"></i>
                     <h3>クラウド技術</h3>
-                    <p>AWS, GCP, Kubernetes, Docker</p>
+                    <p>AWS, GCP, Azure, Kubernetes, Docker, Terraform</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-aos="flip-left" data-aos-delay="300">
+                    <i class="fas fa-shield-alt skill-icon"></i>
+                    <h3>セキュリティ</h3>
+                    <p>暗号化, ペネトレーションテスト, セキュアコーディング</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 80%"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section" id="projects">
+        <section class="section" id="projects" data-aos="fade-up">
             <h2 class="section-title">主要プロジェクト</h2>
             <div class="projects">
-                <div class="project-card">
+                <div class="project-card" data-aos="zoom-in">
+                    <img src="https://via.placeholder.com/400x200" alt="AIコード生成エンジン" class="project-image">
                     <div class="project-content">
                         <h3>AIコード生成エンジン</h3>
-                        <p>自然言語からコードを生成する革新的なAIシステムの開発</p>
+                        <p>自然言語からコードを生成する革新的なAIシステムの開発。GPT-4を活用し、複数言語に対応。</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">GPT-4</span>
+                            <span class="project-tag">TensorFlow</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
+                <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://via.placeholder.com/400x200" alt="分散型クラウドストレージ" class="project-image">
                     <div class="project-content">
                         <h3>分散型クラウドストレージ</h3>
-                        <p>ブロックチェーン技術を活用した次世代ストレージシステム</p>
+                        <p>ブロックチェーン技術を活用した次世代ストレージシステム。高可用性と暗号化を実現。</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Blockchain</span>
+                            <span class="project-tag">Go</span>
+                            <span class="project-tag">AWS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://via.placeholder.com/400x200" alt="リアルタイム異常検知システム" class="project-image">
+                    <div class="project-content">
+                        <h3>リアルタイム異常検知システム</h3>
+                        <p>IoTセンサーデータのリアルタイム分析と異常検知を行うシステム。</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Kafka</span>
+                            <span class="project-tag">Spark</span>
+                            <span class="project-tag">ML</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section" id="contact">
+        <section class="section" id="contact" data-aos="fade-up">
             <h2 class="section-title">お問い合わせ</h2>
-            <form class="contact-form">
+            <form class="contact-form" data-aos="zoom-in">
+                <input type="text" class="contact-input" placeholder="お名前" required>
                 <input type="email" class="contact-input" placeholder="メールアドレス" required>
                 <textarea class="contact-input" placeholder="メッセージ" rows="5" required></textarea>
                 <button type="submit" class="contact-button">送信する</button>
             </form>
             <div class="social-links">
-                <a href="https://github.com/" target="_blank" class="social-link">
+                <a href="https://github.com/" target="_blank" class="social-link" data-aos="fade-up" data-aos-delay="100">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="https://linkedin.com/" target="_blank" class="social-link">
+                <a href="https://linkedin.com/" target="_blank" class="social-link" data-aos="fade-up" data-aos-delay="200">
                     <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="https://twitter.com/" target="_blank" class="social-link">
+                <a href="https://twitter.com/" target="_blank" class="social-link" data-aos="fade-up" data-aos-delay="300">
                     <i class="fab fa-twitter"></i>
                 </a>
             </div>
         </section>
     </main>
 
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
+        // AOSの初期化
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // パーティクルの生成
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // ランダムなサイズと位置
+            const size = Math.random() * 5 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            
+            document.querySelector('header').appendChild(particle);
+            
+            // アニメーション終了後に要素を削除
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+            });
+        }
+
+        // 定期的にパーティクルを生成
+        setInterval(createParticle, 300);
+
         // スムーズスクロール
         document.querySelector('.scroll-indicator').addEventListener('click', () => {
             window.scrollTo({
@@ -406,48 +522,41 @@
             });
         });
 
-        // セクションのアニメーション
-        const sections = document.querySelectorAll('.section');
-        
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
+        // スキルプログレスバーのアニメーション
+        const progressBars = document.querySelectorAll('.skill-progress-bar');
+        const progressObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    entry.target.style.transitionDelay = '0.2s';
+                    const width = entry.target.style.width;
+                    entry.target.style.width = '0';
+                    setTimeout(() => {
+                        entry.target.style.width = width;
+                    }, 100);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.5 });
 
-        sections.forEach(section => {
-            observer.observe(section);
+        progressBars.forEach(bar => {
+            progressObserver.observe(bar);
         });
 
-        // スキルカードのアニメーション
-        const skillCards = document.querySelectorAll('.skill-card');
-        skillCards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.1}s`;
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-        });
-
-        const skillObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, {
-            threshold: 0.2
-        });
-
-        skillCards.forEach(card => {
-            skillObserver.observe(card);
+        // フォーム送信処理
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const button = e.target.querySelector('button');
+            const originalText = button.textContent;
+            button.textContent = '送信中...';
+            button.disabled = true;
+            
+            // 送信処理をシミュレート
+            setTimeout(() => {
+                button.textContent = '送信完了!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    e.target.reset();
+                }, 2000);
+            }, 1500);
         });
     </script>
 </body>
